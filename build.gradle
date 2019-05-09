@@ -279,7 +279,7 @@ publishing {
             version = projectVersion
 
             repositories {
-                if (project.hasProperty("AWS_REPO_URL")) {
+                if (project.hasProperty("AWS_REPO_URL") && project.hasProperty("AWS_REPO_ADMIN_ACCESS_KEY")) {
                     maven {
                         url AWS_REPO_URL
                         credentials(AwsCredentials) {
