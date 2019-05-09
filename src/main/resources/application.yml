@@ -1,0 +1,67 @@
+spring:
+  profiles.active: local
+  application.name: spring-boot-gradle
+  sleuth:
+    propagation-keys: x-request-id,x-ot-span-context
+  jackson:
+    time-zone: Europe/Istanbul
+  data.web.pageable.max-page-size: 100
+
+server:
+  ip: "0.0.0.0"
+  port: 8080
+  servlet.context-path: /api/boot
+
+logging:
+  level:
+    org.springframework.security: INFO
+    me.yaman.can.controller: INFO
+
+# Spring Cloud
+feign:
+  #  okhttp.enabled: true
+  client.config.default:
+    connectTimeout: 5000
+    readTimeout: 5000
+    loggerLevel: basic
+ribbon.eureka.enabled: false
+
+# Actuator Service
+management:
+  endpoint.health:
+    show-details: always
+  endpoints:
+    web:
+      base-path: "/system"
+      exposure.include: "*" ##["configprops", "jolokia", "health", "httptrace", "info", "metrics"]
+    health.sensitive: false
+  metrics.tags.application: ${spring.application.name}
+#  info.git.mode: "full" ## all git info
+---
+# Docker container runtime configuration
+spring.profiles: container
+
+spring.profiles.include:
+- k8s
+---
+# Local gradle runtime configuration
+spring.profiles: local
+
+spring.profiles.include:
+- internal
+---
+spring.profiles: k8s
+
+server:
+  ip: "0.0.0.0"
+  port: 8080
+  servlet.context-path: /api/boot
+---
+spring.profiles: internal
+
+server:
+  ip: "0.0.0.0"
+  port: 8090
+  servlet.context-path: /api/boot
+service.url: "http://localhost:${server.port}${server.servlet.context-path}"
+---

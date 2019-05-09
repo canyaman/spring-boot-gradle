@@ -1,0 +1,4 @@
+ext.projectName = 'spring-boot-gradle'
+ext.projectGroup = 'me.yaman.can'
+ext.projectBasePackage = 'me.yaman.can'
+ext.projectVersion = '0.0.1'
